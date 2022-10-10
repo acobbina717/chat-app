@@ -9,8 +9,8 @@ const socket = io("http://localhost:5000");
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Home socket={socket} />}></Route>
-      <Route path="/chat" element={<Chat socket={socket} />}></Route>
+      <Route path="/" element={<Home socket={socket} />} />
+      <Route path="/chat" element={<Chat socket={socket} />} />
     </Routes>
   );
 }

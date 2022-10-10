@@ -13,6 +13,7 @@ const Home = ({ socket }: HomeProps) => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     localStorage.setItem("userName", userName);
+    socket.emit("newUser", { userName, socketID: socket.id });
     navigate("/chat");
   };
 

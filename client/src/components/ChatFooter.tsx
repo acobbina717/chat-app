@@ -1,11 +1,28 @@
 import { FormEvent, useState } from "react";
+import { Socket } from "socket.io-client";
 
-const ChatFooter = () => {
+type ChatFooterProps = {
+  socket: Socket;
+};
+
+const ChatFooter = ({ socket }: ChatFooterProps) => {
   const [message, setMessage] = useState("");
+
+  const handleTyping = () => {
+    socket.emit("typing", `${localStorage.getItem("userName")} is typing`);
+  };
 
   const handleSendMessage = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log({ userName: localStorage.getItem("userName"), message });
+
+    if (message.trim() && localStorage.getItem("userName")) {
+      socket.emit("message", {
+        text: message,
+        name: localStorage.getItem("userName"),
+        id: `${socket.id}${Math.random()}`,
+        socketID: socket.id,
+      });
+    }
     setMessage("");
   };
 
@@ -18,6 +35,7 @@ const ChatFooter = () => {
           className="message"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={handleTyping}
         />
         <button className="sendBtn">SEND</button>
       </form>
