@@ -1,5 +1,6 @@
 import { FormEvent, useState } from "react";
 import { Socket } from "socket.io-client";
+import checkPageStatus from "../Utils/index";
 
 type ChatFooterProps = {
   socket: Socket;
@@ -20,8 +21,9 @@ const ChatFooter = ({ socket }: ChatFooterProps) => {
         text: message,
         name: localStorage.getItem("userName"),
         id: `${socket.id}${Math.random()}`,
-        socketID: socket.id,
       });
+
+      checkPageStatus(message, localStorage.getItem("userName"));
     }
     setMessage("");
   };
